@@ -1,0 +1,104 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+
+typedef struct ListNode {
+	int val; 
+	char *msg;
+	struct ListNode *next; 
+} node_t; 
+
+void 
+print_list(node_t *head) {
+	for(node_t *tmp = head;tmp != NULL; tmp = tmp->next) {
+		printf("%d -> ", tmp->val);
+	}
+	printf("\n");
+	
+	for(node_t *tmp = head; tmp != NULL; tmp = tmp->next) {
+		printf("%s ", tmp->msg);
+	}
+	printf("\n");
+}
+
+node_t 
+*prepend_node(node_t **head, int val, char *msg) {
+	node_t *new = malloc(sizeof(node_t));
+
+	new->val = val;
+	new->msg = msg;
+	new->next = *head; 
+	*head = new; 
+
+	return new; 
+}
+
+node_t 
+*merge_two_lists(node_t *l1, node_t *l2) {
+	node_t *t1 = l1;
+	node_t *t2 = l2;
+
+	while(t1 != NULL && t2 != NULL) {
+		node_t *t2_old = t2->next;
+
+		t2->next = t1->next;
+		t1->next = t2; 
+
+		t1 = t2->next;
+		t2 = t2_old;
+	}
+	return l1;
+}
+
+int
+main() {
+	node_t *L1 = NULL; 
+	node_t *L2 = NULL; 
+	node_t *Super1 = NULL; 
+	node_t *Super2 = NULL; 
+
+	// Initialize list 1
+	prepend_node(&L1, 4, "butt");
+	prepend_node(&L1, 4, "wreak");
+	prepend_node(&L1, 4, "poop");
+	prepend_node(&L1, 1, "stank");
+	prepend_node(&L1, 1, "tasty");
+	prepend_node(&L1, 1, "hot");
+	prepend_node(&L1, 2, "of");
+	prepend_node(&L1, 1, "lots");
+/*	
+	// Initialize list 2
+	prepend_node(&L2, 4);
+	prepend_node(&L2, 3);
+	prepend_node(&L2, 1);
+
+	// Initialize super lists
+
+	for(int i = 120; i < 130; i++) {
+		prepend_node(&Super1, i);
+	}
+
+	for(int i = 0; i < 10; i++) {
+		prepend_node(&Super2, i);
+	}
+*/
+	printf("List 1:\n");
+	print_list(L1);
+
+//	printf("List 2:\n");
+	print_list(L2);
+
+	printf("Merged?\n");
+	print_list(merge_two_lists(L1, L2));
+
+/*
+	printf("Super 1:\n");
+	print_list(Super1);
+	
+	printf("Super 2:\n");
+	print_list(Super2);
+
+	printf("Merge the Supers!\n");
+	print_list(merge_two_lists(Super1, Super2));
+*/
+}
+
